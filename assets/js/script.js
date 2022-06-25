@@ -106,6 +106,7 @@ var createTaskE1 = function(taskDataObj){
 
     // console.log(taskDataObj);
     // console.log(taskDataObj.status);
+    saveTasks();
 }
 
 var createTaskActions = function(taskId){
@@ -213,6 +214,7 @@ var deleteTask = function(taskId) {
 
     // removes the taskSelected in this case associated with the proper data-task-id
     taskSelected.remove();
+    saveTasks();
 }
 
 // editTask function
@@ -230,13 +232,13 @@ var editTask = function(taskId){
     // console.log(taskType);
     // debugger; before and after the loop displays the values associated to each based on taskId
     // loop throught the tasks array and task object with new content  - parseNet function converts string to a number
-    for (var i=0; i <tasks.length; i++){
-        if (tasks[i].id === parseInt(taskId)){
-            tasks[i].name= taskName;
-            tasks[i].type = taskType;
-        }
-    };
-    console.log(tasks);
+    // for (var i=0; i <tasks.length; i++){
+    //     if (tasks[i].id === parseInt(taskId)){
+    //         tasks[i].name= taskName;
+    //         tasks[i].type = taskType;
+    //     }
+    // };
+    // console.log(tasks);
     // debugger;
     // adds the name and type back into form elements
     document.querySelector("input[name='task-name']").value = taskName;
@@ -263,6 +265,15 @@ var completeEditTask = function(taskName, taskType, taskId) {
     formE1.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
 
+    for (var i=0; i <tasks.length; i++){
+        if (tasks[i].id === parseInt(taskId)){
+            tasks[i].name= taskName;
+            tasks[i].type = taskType;
+        }
+    };
+    console.log(tasks);
+
+    saveTasks();
 }
 
 var taskStatusChangeHandler = function(event){
@@ -292,7 +303,13 @@ var taskStatusChangeHandler = function(event){
         }
     };
     console.log(tasks);
+    saveTasks();
 };
+
+var saveTasks = function(){
+    // setItem saves - getItem retrieves -- JSON (JavaScript Object Notation) stringify converts arrays into a string for saving
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 pageContentE1.addEventListener("click", taskButtonHandler);
 
