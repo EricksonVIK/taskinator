@@ -15,6 +15,17 @@ var taskFormHandler =function(event){
         name:taskNameInput,
         type:taskTypeInput,
     }
+
+    // confirming content on both input fields || = and ! = empty
+    if (!taskNameInput || !taskTypeInput){
+        alert ("You need to fill out the task form!");
+        // return false stops the function
+        return false;
+    }
+
+    // resets the field in after applying the function
+    formE1.reset();
+
     // send it as an argument to createTaskE1
     createTaskE1(taskDataObj);
 
