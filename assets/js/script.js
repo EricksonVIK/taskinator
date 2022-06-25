@@ -129,30 +129,51 @@ formE1.addEventListener("submit", taskFormHandler);
 var taskButtonHandler = function(event){
     // reporting the elements on which the event (click in this case) occurs
     console.log(event.target);
-    if (event.target.matches(".delete-btn")) {
+
+    // get target element from event
+    var targetE1 = event.target;
+    
+    // identifying which button was clicked to assign the targetE1 variable
+    if (targetE1.matches(".edit-btn")){
+        var taskId = targetE1.getAttribute("data-task-id");
+        editTask(taskId);
+    } // delete button identified
+    else if (event.target.matches(".delete-btn")) {
         // confirms the delete button was clicked.
-        // console.log("You clicked a delete button!");
+    // console.log("You clicked a delete button!");
         var taskId =event.target.getAttribute("data-task-id");
-        // list id associated with that tasks delete button
-        console.log(taskId);
-    };
-
-    // deleting the task
-    var deleteTask = function(taskId) {
-        // verify the task id is coming from delete task
-        // console.log(taskId);
-        // selecting a list item using .task-item, narrowing search for .task-item that has specific data-task-id
-        // no space between ...item[data...] to show that both properties must be on the same element
-        var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-        // console.log(taskSelected);
-        // removes the taskSelected in this case associated with the proper data-task-id
-        taskSelected.remove();
-    }
-
-    if (event.target.matches(".delete-btn")) {
-        var taskId = event.target.getAttribute("data-task-id");
         deleteTask(taskId);
-    }
+        console.log("You clicked a delete button!");
+
+    };
+    console.dir(event.target);
+
+    // if (event.target.matches(".delete-btn")) {
+    //     var taskId = event.target.getAttribute("data-task-id");
+    // }
+};
+
+// deleting the task
+var deleteTask = function(taskId) {
+    // verify the task id is coming from delete task
+    // selecting a list item using .task-item, narrowing search for .task-item that has specific data-task-id
+    // no space between ...item[data...] to show that both properties must be on the same element
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    // removes the taskSelected in this case associated with the proper data-task-id
+    taskSelected.remove();
+
+    console.log("deleted task # " + taskId);
+    
+}
+
+// editTask function
+var editTask = function(taskId){
+    console.log("editing task #" + taskId);
+
+    // get task list item element
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId +"']");
+    
 };
 
 pageContentE1.addEventListener("click", taskButtonHandler);
