@@ -322,12 +322,12 @@ var loadTasks = function(){
 
     tasks= JSON.parse(tasks)
     console.log(tasks);
-//     // ul object turned into a variable via class as well
-     var savedToDoE1 = document.querySelector("#tasks-to-do");
+// //     // ul object turned into a variable via class as well
+//      var savedToDoE1 = document.querySelector("#tasks-to-do");
 
-// // variables created from ul task in progress and task completed
-    var savedInProgressE1 = document.querySelector("#tasks-in-progress");
-    var savedCompletedE1 = document.querySelector("#tasks-completed");
+// // // variables created from ul task in progress and task completed
+//     var savedInProgressE1 = document.querySelector("#tasks-in-progress");
+//     var savedCompletedE1 = document.querySelector("#tasks-completed");
 // 
 // debugger;
     for(var i=0; i<tasks.length; i++){
