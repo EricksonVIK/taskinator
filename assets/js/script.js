@@ -143,7 +143,7 @@ var taskButtonHandler = function(event){
     // console.log("You clicked a delete button!");
         var taskId =event.target.getAttribute("data-task-id");
         deleteTask(taskId);
-        console.log("You clicked a delete button!");
+        // console.log("You clicked a delete button!");
 
     };
     console.dir(event.target);
@@ -155,6 +155,8 @@ var taskButtonHandler = function(event){
 
 // deleting the task
 var deleteTask = function(taskId) {
+    console.log("deleted task # " + taskId);
+
     // verify the task id is coming from delete task
     // selecting a list item using .task-item, narrowing search for .task-item that has specific data-task-id
     // no space between ...item[data...] to show that both properties must be on the same element
@@ -162,9 +164,6 @@ var deleteTask = function(taskId) {
 
     // removes the taskSelected in this case associated with the proper data-task-id
     taskSelected.remove();
-
-    console.log("deleted task # " + taskId);
-    
 }
 
 // editTask function
@@ -173,7 +172,21 @@ var editTask = function(taskId){
 
     // get task list item element
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId +"']");
-    
+
+    // get content from task name and type using taskSelected instead of document before the querySelector limits search
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+    // console.log(taskName);
+
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+    // console.log(taskType);
+
+    // adds the name and type back into form elements
+    document.querySelector("input[name='task-name']").value = taskName;
+    document.querySelector("select[name='task-type']").value = taskType;
+    // changes submit to edit on button
+    document.querySelector("#save-task").textContent = "Save Task";
+    // carries the associated id to the edit
+    formE1.setAttribute("data-task-id", taskId);
 };
 
 pageContentE1.addEventListener("click", taskButtonHandler);
