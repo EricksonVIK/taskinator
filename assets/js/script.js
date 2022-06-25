@@ -14,6 +14,10 @@ var tasksToDoE1 = document.querySelector("#tasks-to-do");
 var tasksInProgressE1 = document.querySelector("#tasks-in-progress");
 var tasksCompletedE1 = document.querySelector("#tasks-completed");
 
+// creating array for local storage
+var tasks = []
+
+
 var taskFormHandler =function(event){
 
     // stops form from reloading the page upon form submission
@@ -42,6 +46,7 @@ var taskFormHandler =function(event){
         var taskDataObj ={
             name: taskNameInput,
             type: taskTypeInput,
+            status: "to do"
         };
 
         // send it as an argument to createTaskE1
@@ -83,6 +88,10 @@ var createTaskE1 = function(taskDataObj){
     // taskInfoE1 is addded to listItemE1
     listItemE1.appendChild(taskInfoE1);
 
+    taskDataObj.id = taskIdCounter;
+
+    tasks.push(taskDataObj);
+
     var taskActionsE1 = createTaskActions(taskIdCounter);
     // verifying the function worked prior to append
     // console.log(taskActionsE1);
@@ -94,6 +103,9 @@ var createTaskE1 = function(taskDataObj){
     
     // increase task counter for next unique id
     taskIdCounter++;
+
+    // console.log(taskDataObj);
+    // console.log(taskDataObj.status);
 }
 
 var createTaskActions = function(taskId){
@@ -181,7 +193,19 @@ var taskButtonHandler = function(event){
 // deleting the task
 var deleteTask = function(taskId) {
     console.log("deleted task # " + taskId);
+    // creating an array to hold updated list of tasks
+    var updatedTaskArr = [];
 
+    // loop through current tasks
+    for (var i=0; i<tasks.length; i++){
+        // if task[i].id dowsn't match the vale of taskId, let's keep and push it into the new array
+        if (tasks[i].id !== parseInt(taskId)){
+            updatedTaskArr.push(tasks[i]);
+        }
+    }
+
+    // reassign taks array to be the same as updatedTaskArr array
+    tasks = updatedTaskArr;
     // verify the task id is coming from delete task
     // selecting a list item using .task-item, narrowing search for .task-item that has specific data-task-id
     // no space between ...item[data...] to show that both properties must be on the same element
@@ -204,7 +228,16 @@ var editTask = function(taskId){
 
     var taskType = taskSelected.querySelector("span.task-type").textContent;
     // console.log(taskType);
-
+    // debugger; before and after the loop displays the values associated to each based on taskId
+    // loop throught the tasks array and task object with new content  - parseNet function converts string to a number
+    for (var i=0; i <tasks.length; i++){
+        if (tasks[i].id === parseInt(taskId)){
+            tasks[i].name= taskName;
+            tasks[i].type = taskType;
+        }
+    };
+    console.log(tasks);
+    // debugger;
     // adds the name and type back into form elements
     document.querySelector("input[name='task-name']").value = taskName;
     document.querySelector("select[name='task-type']").value = taskType;
@@ -252,6 +285,13 @@ var taskStatusChangeHandler = function(event){
         tasksCompletedE1.appendChild(taskSelected);
     };
 
+    // update tasks in task array
+    for (var i=0; i<tasks.length; i++){
+        if (tasks[i].id === parseInt(taskId)){
+            tasks[i].status = statusValue;
+        }
+    };
+    console.log(tasks);
 };
 
 pageContentE1.addEventListener("click", taskButtonHandler);
