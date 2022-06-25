@@ -1,13 +1,58 @@
-var buttonE1 = document.querySelector("#save-task");
+// query selector used to turn the entire  form into a variable based on its class
+var formE1 = document.querySelector("#task-form");
+// ul object turned into a variable via class as well
 var tasksToDoE1 = document.querySelector("#tasks-to-do");
 
-var createTaskHandler =function(){
-    var listItemE1 = document.createElement("li");
-    listItemE1.className = "task-item";
-    listItemE1.textContent ="This is a new task.";
-    tasksToDoE1.appendChild(listItemE1)
+var taskFormHandler =function(event){
+
+    event.preventDefault();
+
+    var taskNameInput = document.querySelector("input[name ='task-name']").value;
+    var taskTypeInput = document.querySelector("select[name='task-type']").value;
+    
+    // package up data as an object
+    var taskDataObj ={
+        name:taskNameInput,
+        type:taskTypeInput,
+    }
+
+    // confirming content on both input fields || = and ! = empty
+    if (!taskNameInput || !taskTypeInput){
+        alert ("You need to fill out the task form!");
+        // return false stops the function
+        return false;
+    }
+
+    // resets the field in after applying the function
+    formE1.reset();
+
+    // send it as an argument to createTaskE1
+    createTaskE1(taskDataObj);
+
 }
 
-buttonE1.addEventListener("click", createTaskHandler);
+var createTaskE1 = function(taskDataObj){
+
+    // Create list item
+    var listItemE1 = document.createElement("li");
+    listItemE1.className = "task-item";
+
+    // create div to hold task info and add to list item
+    var taskInfoE1 = document.createElement("div");
+    // give the div a class name
+    taskInfoE1.className="task-info";
+    // add HTML content to div
+    taskInfoE1.innerHTML="<h3 class = 'task-name'>" + taskDataObj.name + "</h3><span class = 'task-type'>" + taskDataObj.type + "</span>";
+
+    // taskInfoE1 is addded to listItemE1
+    listItemE1.appendChild(taskInfoE1);
+
+    // li with nestled div are added to the html object (tasksToDoE1 was added above the function)
+    tasksToDoE1.appendChild(listItemE1);
+    
+}
+
+// clicking on the button - we used submit vs clicking, otherwise clicking on any of the fields would've submitted new entry
+formE1.addEventListener("submit", taskFormHandler);
 
 
