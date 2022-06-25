@@ -88,6 +88,7 @@ var createTaskE1 = function(taskDataObj){
     // taskInfoE1 is addded to listItemE1
     listItemE1.appendChild(taskInfoE1);
 
+    
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
@@ -311,6 +312,36 @@ var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+var loadTasks = function(){
+    var tasks = localStorage.getItem("tasks")
+    console.log(tasks);
+    if (tasks === null){
+        var tasks = [];
+        return false;
+    }
+
+    tasks= JSON.parse(tasks)
+    console.log(tasks);
+//     // ul object turned into a variable via class as well
+     var savedToDoE1 = document.querySelector("#tasks-to-do");
+
+// // variables created from ul task in progress and task completed
+    var savedInProgressE1 = document.querySelector("#tasks-in-progress");
+    var savedCompletedE1 = document.querySelector("#tasks-completed");
+// 
+// debugger;
+    for(var i=0; i<tasks.length; i++){
+        createTaskE1(tasks[i]);
+        console.log(tasks[i].status)
+
+    };
+//     console.log(tasks[i]);
+// debugger;
+
+};
+
 pageContentE1.addEventListener("click", taskButtonHandler);
 
 pageContentE1.addEventListener("change", taskStatusChangeHandler);
+
+loadTasks ();
