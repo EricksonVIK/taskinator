@@ -1,3 +1,7 @@
+// reference to main via id page-content
+var pageContentE1 = document.querySelector("#page-content");
+console.dir(pageContentE1)
+
 // creating variable to create and track tasks via id
 var taskIdCounter =0;
 
@@ -121,4 +125,34 @@ var createTaskActions = function(taskId){
 // clicking on the button - we used submit vs clicking, otherwise clicking on any of the fields would've submitted new entry
 formE1.addEventListener("submit", taskFormHandler);
 
+// // adding function for event listner
+var taskButtonHandler = function(event){
+    // reporting the elements on which the event (click in this case) occurs
+    console.log(event.target);
+    if (event.target.matches(".delete-btn")) {
+        // confirms the delete button was clicked.
+        // console.log("You clicked a delete button!");
+        var taskId =event.target.getAttribute("data-task-id");
+        // list id associated with that tasks delete button
+        console.log(taskId);
+    };
 
+    // deleting the task
+    var deleteTask = function(taskId) {
+        // verify the task id is coming from delete task
+        // console.log(taskId);
+        // selecting a list item using .task-item, narrowing search for .task-item that has specific data-task-id
+        // no space between ...item[data...] to show that both properties must be on the same element
+        var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+        // console.log(taskSelected);
+        // removes the taskSelected in this case associated with the proper data-task-id
+        taskSelected.remove();
+    }
+
+    if (event.target.matches(".delete-btn")) {
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
+
+pageContentE1.addEventListener("click", taskButtonHandler);
