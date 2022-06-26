@@ -74,7 +74,7 @@ var createTaskE1 = function(taskDataObj){
     // Create list item
     var listItemE1 = document.createElement("li");
     listItemE1.className = "task-item";
-
+    
     // add task id as a custom attribute
     listItemE1.setAttribute("data-task-id", taskIdCounter);
 
@@ -92,16 +92,29 @@ var createTaskE1 = function(taskDataObj){
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
-
+    console.log(tasks);
     var taskActionsE1 = createTaskActions(taskIdCounter);
     // verifying the function worked prior to append
     // console.log(taskActionsE1);
     // adding created button with drop down menus
     listItemE1.appendChild(taskActionsE1);
+    // since I'm pulling saved into the function, created this if else statement to assign to proper column
+    if (taskDataObj.status === "to do"){
+        tasksToDoE1.appendChild(listItemE1);
+        console.dir(tasksToDoE1);
+    } else if (taskDataObj.status === "in progress"){
+        tasksInProgressE1.appendChild(listItemE1);
+
+    } else if (taskDataObj.status === "completed"){
+        tasksCompletedE1.appendChild(listItemE1);
+    };
 
     // li with nestled div are added to the html object (tasksToDoE1 was added above the function)
-    tasksToDoE1.appendChild(listItemE1);
-    
+    // tasksToDoE1.appendChild(listItemE1);
+
+    // trying an if statement to assign
+
+    // tasksInProgressE1.appendChild(listItemE1)
     // increase task counter for next unique id
     taskIdCounter++;
 
@@ -302,6 +315,7 @@ var taskStatusChangeHandler = function(event){
         if (tasks[i].id === parseInt(taskId)){
             tasks[i].status = statusValue;
         }
+        
     };
     console.log(tasks);
     saveTasks();
@@ -315,13 +329,14 @@ var saveTasks = function(){
 var loadTasks = function(){
     var tasks = localStorage.getItem("tasks")
     console.log(tasks);
-    if (tasks === null){
-        var tasks = [];
-        return false;
-    }
+    // if (tasks === null){
+    //     var tasks = [];
+    //     return false;
+    // }
 
     tasks= JSON.parse(tasks)
     console.log(tasks);
+
 // //     // ul object turned into a variable via class as well
 //      var savedToDoE1 = document.querySelector("#tasks-to-do");
 
@@ -331,11 +346,12 @@ var loadTasks = function(){
 // 
 // debugger;
     for(var i=0; i<tasks.length; i++){
+        
         createTaskE1(tasks[i]);
         console.log(tasks[i].status)
 
     };
-//     console.log(tasks[i]);
+    // console.log(tasks[i]);
 // debugger;
 
 };
